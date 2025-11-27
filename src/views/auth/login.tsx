@@ -70,7 +70,7 @@ const Login: FC = () => {
               <div className="absolute inset-0 rounded-2xl bg-yellow-600 translate-y-2"></div>
 
               {/* Main logo card */}
-              <div className="relative h-full w-full rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-500 border-2 border-yellow-300 shadow-xl transform transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl flex items-center justify-center p-3">
+              <div className="relative h-full w-full rounded-2xl bg-linear-to-br from-yellow-400 to-yellow-500 border-2 border-yellow-300 shadow-xl transform transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl flex items-center justify-center p-3">
                 <img
                   src="/images/logo-dpk.png"
                   alt="Logo Desa"
