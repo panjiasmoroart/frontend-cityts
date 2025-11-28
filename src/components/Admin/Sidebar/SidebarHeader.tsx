@@ -20,7 +20,7 @@ const SidebarHeader: React.FC = () => {
           {/* Background utama logo */}
           <div className="relative h-full w-full rounded-xl bg-linear-to-br from-yellow-300 to-yellow-400 border-2 border-yellow-100 shadow-lg transform transition-all duration-300 group-hover:-translate-y-0.5 flex items-center justify-center p-1.5">
             <img
-              src="/images/logo-jbg.png"
+              src="/images/logo-dpk.png"
               alt="Logo Desa"
               className="h-full w-full object-contain filter drop-shadow-sm"
             />
