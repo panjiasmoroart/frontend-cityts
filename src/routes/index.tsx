@@ -6,7 +6,10 @@ import { useAuthStore } from "../stores/auth";
 
 //import view login
 import Login from "../views/auth/login";
+//import view Dashboard
 import Dashboard from "../views/admin/dashboard";
+//import view Forbidden
+import Forbidden from "../views/admin/forbidden";
 
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
@@ -31,6 +34,14 @@ export default function AppRoutes() {
         path="/admin/dashboard"
         element={
           isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />
+        }
+      />
+
+      {/* route "/admin/forbidden" */}
+      <Route
+        path="/admin/forbidden"
+        element={
+          isAuthenticated ? <Forbidden /> : <Navigate to="/login" replace />
         }
       />
     </Routes>
