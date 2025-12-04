@@ -42,7 +42,7 @@ const Forbidden: React.FC = () => {
 
             <button
               onClick={() => navigate("/admin/dashboard")}
-              className="px-6 py-3 flex items-center justify-center bg-gradient-to-br from-yellow-800 to-yellow-400 text-white rounded-xl hover:bg-yellow-700 transition-colors duration-200"
+              className="px-6 py-3 flex items-center justify-center bg-linear-to-br from-yellow-800 to-yellow-400 text-white rounded-xl hover:bg-yellow-700 transition-colors duration-200"
             >
               Return to Dashboard
             </button>
