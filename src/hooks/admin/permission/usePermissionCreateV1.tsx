@@ -9,17 +9,11 @@ import type { PermissionCreateRequest } from "../../../types/permission";
 
 // import js-cookie
 import Cookies from "js-cookie";
-import type { ApiErrorResponse } from "../../../types/error-response";
-import type { AxiosError } from "axios";
 
 export const usePermissionCreate = () => {
-  return useMutation<
-    unknown, // TData (response success)
-    AxiosError<ApiErrorResponse>, // TError (error dari API)
-    PermissionCreateRequest // TVariables (payload)
-  >({
+  return useMutation({
     // mutation untuk create permission
-    mutationFn: async (data) => {
+    mutationFn: async (data: PermissionCreateRequest) => {
       // ambil token dari cookies
       const token = Cookies.get("token");
 
@@ -30,6 +24,7 @@ export const usePermissionCreate = () => {
         },
       });
 
+      // kembalikan response data
       return response.data;
     },
   });

@@ -30,3 +30,4 @@ export interface PermissionUpdateRequest {
   id: number;
   name: string;
 }
+
