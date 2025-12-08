@@ -4,12 +4,11 @@ import { Routes, Route, Navigate } from "react-router";
 //import useAuthStore
 import { useAuthStore } from "../stores/auth";
 
-//import view login
+//import all view
 import Login from "../views/auth/login";
-//import view Dashboard
 import Dashboard from "../views/admin/dashboard";
-//import view Forbidden
 import Forbidden from "../views/admin/forbidden";
+import Permissions from "../views/admin/permissions";
 
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
@@ -42,6 +41,14 @@ export default function AppRoutes() {
         path="/admin/forbidden"
         element={
           isAuthenticated ? <Forbidden /> : <Navigate to="/login" replace />
+        }
+      />
+
+      {/* route "/admin/permissions" */}
+      <Route
+        path="/admin/permissions"
+        element={
+          isAuthenticated ? <Permissions /> : <Navigate to="/login" replace />
         }
       />
     </Routes>
