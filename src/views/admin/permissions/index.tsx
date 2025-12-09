@@ -28,6 +28,15 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+// import hook untuk delete permission
+import { usePermissionDelete } from "../../../hooks/admin/permission/usePermissionDelete";
+
+// import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast untuk notifikasi
+import toast from "react-hot-toast";
+
 const Permissions: React.FC = () => {
   //title
   useEffect(() => {
@@ -61,6 +70,38 @@ const Permissions: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  // initialize useQueryClient
+  const queryClient = useQueryClient();
+
+  // Menggunakan hook usePermissionDelete untuk menghapus permission
+  const { mutate, isPending } = usePermissionDelete();
+
+  // Fungsi untuk menangani penghapusan permission
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this permission?")) {
+      // Panggil mutate dari usePermissionDelete untuk menghapus permission
+      mutate(id, {
+        onSuccess: () => {
+          // Setelah berhasil menghapus, invalidate query untuk memperbarui data
+          queryClient.invalidateQueries({ queryKey: ["permissions"] });
+
+          // Setelah berhasil, reset halaman ke 1
+          setPage(1);
+
+          // Tampilkan notifikasi sukses
+          toast.success("Permission deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // Tampilkan pesan error jika ada
+          alert(`Failed to delete permission: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -166,6 +207,8 @@ const Permissions: React.FC = () => {
 
                             {hasAnyPermission(["permissions-delete"]) && (
                               <button
+                                onClick={() => handleDelete(permission.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Delete"
                               >
