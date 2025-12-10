@@ -120,7 +120,7 @@ const Permissions: React.FC = () => {
           {hasAnyPermission(["permissions-create"]) && (
             <Link
               to="/admin/permissions/create"
-              className="px-4 py-2 bg-gradient-to-br from-yellow-800 to-yellow-400 border-2 border-yellow-100 text-white rounded-xl hover:bg-blue-700 
+              className="px-4 py-2 bg-linear-to-br from-yellow-800 to-yellow-400 border-2 border-yellow-100 text-white rounded-xl hover:bg-blue-700 
                         flex items-center transition-all duration-200 shadow-sm hover:shadow-md"
             >
               <FiPlus className="mr-2" size={18} />
