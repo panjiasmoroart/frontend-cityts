@@ -6,6 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    react()
+    react({
+      babel: {
+        plugins: process.env.WSL_DISTRO_NAME ? [] : ["react-refresh/babel"]
+      }
+    })
   ],
 })

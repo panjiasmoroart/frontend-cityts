@@ -124,7 +124,7 @@ const PermissionCreate: React.FC = () => {
               <button
                 type="submit"
                 disabled={isPending}
-                className="px-4 py-2 flex items-center bg-gradient-to-br from-yellow-800 to-yellow-400 text-white rounded-xl hover:bg-yellow-700 transition-colors duration-200"
+                className="px-4 py-2 flex items-center bg-linear-to-br from-yellow-800 to-yellow-400 text-white rounded-xl hover:bg-yellow-700 transition-colors duration-200"
               >
                 <FiSave className="mr-2" size={18} />
                 {isPending ? "Saving..." : "Save"}
