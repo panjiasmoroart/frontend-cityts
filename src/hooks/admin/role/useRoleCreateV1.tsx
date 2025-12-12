@@ -9,17 +9,12 @@ import type { RoleCreateRequest } from "../../../types/role";
 
 // import js-cookie
 import Cookies from "js-cookie";
-import type { ApiErrorResponse } from "../../../types/error-response";
-import type { AxiosError } from "axios";
 
+// custom hook untuk create role
 export const useRoleCreate = () => {
-  return useMutation<
-    unknown, // TData (response success)
-    AxiosError<ApiErrorResponse>, // TError (error dari API)
-    RoleCreateRequest // TVariables (payload)
-  >({
-    // mutation untuk create permission
-    mutationFn: async (data) => {
+  return useMutation({
+    // fungsi untuk mengirim data ke API
+    mutationFn: async (data: RoleCreateRequest) => {
       // ambil token dari cookies
       const token = Cookies.get("token");
 
@@ -30,6 +25,7 @@ export const useRoleCreate = () => {
         },
       });
 
+      // kembalikan data response
       return response.data;
     },
   });
