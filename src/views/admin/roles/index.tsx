@@ -28,6 +28,15 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+// import hook untuk delete role
+import { useRoleDelete } from "../../../hooks/admin/role/useRoleDelete";
+
+// import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast untuk notifikasi
+import toast from "react-hot-toast";
+
 const Roles: React.FC = () => {
   //title
   useEffect(() => {
@@ -61,6 +70,37 @@ const Roles: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  // initialize useQueryClient
+  const queryClient = useQueryClient();
+
+  // Menggunakan hook useRoleDelete untuk menghapus role
+  const { mutate, isPending } = useRoleDelete();
+
+  // Fungsi untuk menangani penghapusan role
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this role?")) {
+      // Panggil mutate
+      mutate(id, {
+        onSuccess: () => {
+          // Setelah berhasil menghapus, invalidate query
+          queryClient.invalidateQueries({ queryKey: ["roles"] });
+
+          // Setelah berhasil, reset halaman ke 1
+          setPage(1);
+
+          // Tampilkan notifikasi
+          toast.success("Role deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          alert(`Failed to delete role: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -168,6 +208,8 @@ const Roles: React.FC = () => {
                             )}
                             {hasAnyPermission(["roles-delete"]) && (
                               <button
+                                onClick={() => handleDelete(role.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Delete"
                               >
