@@ -9,38 +9,12 @@ import type { UserCreateRequest } from "../../../types/user";
 
 // import js-cookie
 import Cookies from "js-cookie";
-import type { AxiosError } from "axios";
-import type { ApiErrorResponse } from "../../../types/error-response";
 
 // custom hook untuk create user
-export const useUserCreateOld = () => {
+export const useUserCreate = () => {
   return useMutation({
     // fungsi untuk mengirim data ke API
     mutationFn: async (data: UserCreateRequest) => {
-      // ambil token dari cookies
-      const token = Cookies.get("token");
-
-      // kirim request POST ke endpoint pembuatan user
-      const response = await Api.post("/api/admin/users", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // kembalikan data response
-      return response.data;
-    },
-  });
-};
-
-export const useUserCreate = () => {
-  return useMutation<
-    unknown, // TData (response success)
-    AxiosError<ApiErrorResponse>, // TError (error dari API)
-    UserCreateRequest // TVariables (payload)
-  >({
-    // mutation untuk create permission
-    mutationFn: async (data) => {
       // ambil token dari cookies
       const token = Cookies.get("token");
 

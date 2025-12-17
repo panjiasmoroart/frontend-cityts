@@ -15,6 +15,7 @@ import Roles from "../views/admin/roles";
 import RoleCreate from "../views/admin/roles/create";
 import RoleEdit from "../views/admin/roles/edit";
 import Users from "../views/admin/users";
+import UserCreate from "../views/admin/users/create";
 
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
@@ -108,6 +109,14 @@ export default function AppRoutes() {
       <Route
         path="/admin/users"
         element={isAuthenticated ? <Users /> : <Navigate to="/login" replace />}
+      />
+
+      {/* route "/admin/users/create" */}
+      <Route
+        path="/admin/users/create"
+        element={
+          isAuthenticated ? <UserCreate /> : <Navigate to="/login" replace />
+        }
       />
     </Routes>
   );
