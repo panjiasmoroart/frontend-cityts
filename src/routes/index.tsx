@@ -18,6 +18,7 @@ import Users from "../views/admin/users";
 import UserCreate from "../views/admin/users/create";
 import UserEdit from "../views/admin/users/edit";
 import Categories from "../views/admin/categories";
+import CategoryCreate from "../views/admin/categories/create";
 
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
@@ -134,6 +135,18 @@ export default function AppRoutes() {
         path="/admin/categories"
         element={
           isAuthenticated ? <Categories /> : <Navigate to="/login" replace />
+        }
+      />
+
+      {/* route "/admin/categories/create" */}
+      <Route
+        path="/admin/categories/create"
+        element={
+          isAuthenticated ? (
+            <CategoryCreate />
+          ) : (
+            <Navigate to="/login" replace />
+          )
         }
       />
     </Routes>
