@@ -41,7 +41,7 @@ Api.interceptors.response.use(
       window.location.href = '/login';
     } else if (error.response?.status === 403) {
 
-      //Redirect ke halaman forbidden
+      //Redirect ke halaman forbidden (user not in admin/superadmin etc)
       window.location.href = '/admin/forbidden';
     } else {
 

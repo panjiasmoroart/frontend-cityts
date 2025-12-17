@@ -28,6 +28,15 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+// import hook untuk delete user
+import { useUserDelete } from "../../../hooks/admin/user/useUserDelete.tsx";
+
+// import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast untuk notifikasi
+import toast from "react-hot-toast";
+
 const Users: React.FC = () => {
   //title
   useEffect(() => {
@@ -61,6 +70,38 @@ const Users: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  // initialize useQueryClient
+  const queryClient = useQueryClient();
+
+  // Menggunakan hook useUserDelete untuk menghapus user
+  const { mutate, isPending } = useUserDelete();
+
+  // Fungsi untuk menangani penghapusan user
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this user?")) {
+      // Menggunakan mutate untuk menghapus user
+      mutate(id, {
+        onSuccess: () => {
+          // Setelah berhasil menghapus, invalidate query untuk memperbarui data
+          queryClient.invalidateQueries({ queryKey: ["users"] });
+
+          // Setelah berhasil, reset halaman ke 1
+          setPage(1);
+
+          // Tampilkan notifikasi sukses
+          toast.success("User deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // Tampilkan pesan error jika ada
+          alert(`Failed to delete user: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -171,6 +212,8 @@ const Users: React.FC = () => {
                             )}
                             {hasAnyPermission(["users-delete"]) && (
                               <button
+                                onClick={() => handleDelete(user.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Delete"
                               >
