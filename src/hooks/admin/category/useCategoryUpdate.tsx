@@ -9,12 +9,38 @@ import type { CategoryUpdateRequest } from "../../../types/category";
 
 // import js-cookie
 import Cookies from "js-cookie";
+import type { AxiosError } from "axios";
+import type { ApiErrorResponse } from "../../../types/error-response";
 
 // Hook untuk update category
-export const useCategoryUpdate = () => {
+export const useCategoryUpdateOld = () => {
   return useMutation({
     // Mutation function untuk update category
     mutationFn: async (data: CategoryUpdateRequest) => {
+      // Ambil token dari cookies
+      const token = Cookies.get("token");
+
+      // Kirim request update ke API
+      const response = await Api.put(`/api/admin/categories/${data.id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Kembalikan data response
+      return response.data;
+    },
+  });
+};
+
+export const useCategoryUpdate = () => {
+  return useMutation<
+    unknown, // TData (response success)
+    AxiosError<ApiErrorResponse>, // TError (error dari API)
+    CategoryUpdateRequest // TVariables (payload)
+  >({
+    // Mutation function untuk update user
+    mutationFn: async (data) => {
       // Ambil token dari cookies
       const token = Cookies.get("token");
 
