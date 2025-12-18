@@ -28,6 +28,15 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+// import hook untuk delete kategori
+import { useCategoryDelete } from "../../../hooks/admin/category/useCategoryDelete";
+
+// import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast
+import toast from "react-hot-toast";
+
 const Categories: React.FC = () => {
   //title
   useEffect(() => {
@@ -61,6 +70,38 @@ const Categories: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  // Query Client untuk invalidate data
+  const queryClient = useQueryClient();
+
+  // Hook hapus kategori
+  const { mutate, isPending } = useCategoryDelete();
+
+  // Handle hapus kategori
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this category?")) {
+      // Panggil mutate untuk menghapus kategori
+      mutate(id, {
+        onSuccess: () => {
+          // Invalidate query untuk mengambil ulang data kategori
+          queryClient.invalidateQueries({ queryKey: ["categories"] });
+
+          // Reset halaman ke 1 setelah hapus
+          setPage(1);
+
+          // Tampilkan notifikasi sukses
+          toast.success("Category deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // Tampilkan notifikasi error
+          alert(`Failed to delete category: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -165,6 +206,8 @@ const Categories: React.FC = () => {
                             )}
                             {hasAnyPermission(["categories-delete"]) && (
                               <button
+                                onClick={() => handleDelete(category.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Hapus"
                               >
