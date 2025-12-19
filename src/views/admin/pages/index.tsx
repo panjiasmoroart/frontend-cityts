@@ -28,6 +28,15 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+// import hook untuk delete page
+import { usePageDelete } from "../../../hooks/admin/page/usePageDelete";
+
+// import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast
+import toast from "react-hot-toast";
+
 const Pages: React.FC = () => {
   //title
   useEffect(() => {
@@ -61,6 +70,38 @@ const Pages: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  // Query Client
+  const queryClient = useQueryClient();
+
+  // Hook hapus page
+  const { mutate, isPending } = usePageDelete();
+
+  // Fungsi hapus page
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this page?")) {
+      // Panggil mutate untuk menghapus page
+      mutate(id, {
+        onSuccess: () => {
+          // Invalidate queries to refresh data
+          queryClient.invalidateQueries({ queryKey: ["pages"] });
+
+          // Reset search and page state
+          setPage(1);
+
+          // notifikasi sukses hapus
+          toast.success("Page deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // notifikasi error hapus
+          alert(`Failed to delete page: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -162,6 +203,8 @@ const Pages: React.FC = () => {
                             )}
                             {hasAnyPermission(["pages-delete"]) && (
                               <button
+                                onClick={() => handleDelete(page.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Hapus"
                               >
