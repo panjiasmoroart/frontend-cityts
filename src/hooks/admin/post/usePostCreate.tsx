@@ -9,12 +9,48 @@ import type { PostCreateRequest } from "../../../types/post";
 
 // import js-cookie
 import Cookies from "js-cookie";
+import type { ApiErrorResponse } from "../../../types/error-response";
+import type { AxiosError } from "axios";
 
 // Custom hook untuk create Post
-export const usePostCreate = () => {
+export const usePostCreateOld = () => {
   return useMutation({
     // Mutation function untuk create post
     mutationFn: async (data: PostCreateRequest) => {
+      // Ambil token dari cookie
+      const token = Cookies.get("token");
+
+      // Buat FormData
+      const formData = new FormData();
+      if (data.image) {
+        formData.append("image", data.image as File);
+      }
+      formData.append("category_id", data.category_id.toString());
+      formData.append("title", data.title);
+      formData.append("content", data.content);
+
+      // Kirim request POST ke API
+      const response = await Api.post("/api/admin/posts", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Kembalikan data dari response
+      return response.data;
+    },
+  });
+};
+
+export const usePostCreate = () => {
+  return useMutation<
+    unknown, // TData (response success)
+    AxiosError<ApiErrorResponse>, // TError (error dari API)
+    PostCreateRequest // TVariables (payload)
+  >({
+    // Mutation function untuk create post
+    mutationFn: async (data) => {
       // Ambil token dari cookie
       const token = Cookies.get("token");
 
