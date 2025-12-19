@@ -28,6 +28,15 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+// import hook untuk delete post
+import { usePostDelete } from "../../../hooks/admin/post/usePostDelete.tsx";
+
+//import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast untuk notifikasi
+import toast from "react-hot-toast";
+
 const Posts: React.FC = () => {
   //title
   useEffect(() => {
@@ -61,6 +70,38 @@ const Posts: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  //initialize useQueryClient
+  const queryClient = useQueryClient();
+
+  // Menggunakan hook usePostDelete untuk menghapus post
+  const { mutate, isPending } = usePostDelete();
+
+  // Fungsi untuk menangani penghapusan kategori
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this post?")) {
+      // Panggil mutate dari usePostDelete untuk menghapus kategori
+      mutate(id, {
+        onSuccess: () => {
+          // Setelah berhasil menghapus, invalidate query untuk memperbarui data
+          queryClient.invalidateQueries({ queryKey: ["posts"] });
+
+          // Setelah berhasil, reset halaman ke 1
+          setPage(1);
+
+          // Tampilkan notifikasi sukses
+          toast.success("Post deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // Tampilkan pesan error jika ada
+          alert(`Failed to delete post: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -176,6 +217,8 @@ const Posts: React.FC = () => {
 
                             {hasAnyPermission(["posts-delete"]) && (
                               <button
+                                onClick={() => handleDelete(post.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Hapus"
                               >
