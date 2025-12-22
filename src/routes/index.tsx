@@ -26,6 +26,7 @@ import PostEdit from "../views/admin/posts/edit";
 import Pages from "../views/admin/pages";
 import PageCreate from "../views/admin/pages/create";
 import PageEdit from "../views/admin/pages/edit";
+import Products from "../views/admin/products";
 
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
@@ -206,6 +207,14 @@ export default function AppRoutes() {
         path="/admin/pages/edit/:id"
         element={
           isAuthenticated ? <PageEdit /> : <Navigate to="/login" replace />
+        }
+      />
+
+      {/* route "/admin/products" */}
+      <Route
+        path="/admin/products"
+        element={
+          isAuthenticated ? <Products /> : <Navigate to="/login" replace />
         }
       />
     </Routes>
