@@ -28,6 +28,7 @@ import PageCreate from "../views/admin/pages/create";
 import PageEdit from "../views/admin/pages/edit";
 import Products from "../views/admin/products";
 import ProductCreate from "../views/admin/products/create";
+import ProductEdit from "../views/admin/products/edit";
 
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
@@ -224,6 +225,14 @@ export default function AppRoutes() {
         path="/admin/products/create"
         element={
           isAuthenticated ? <ProductCreate /> : <Navigate to="/login" replace />
+        }
+      />
+
+      {/* route "/admin/products/edit/:id" */}
+      <Route
+        path="/admin/products/edit/:id"
+        element={
+          isAuthenticated ? <ProductEdit /> : <Navigate to="/login" replace />
         }
       />
     </Routes>
