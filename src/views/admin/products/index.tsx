@@ -28,6 +28,15 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+// import hook untuk delete product
+import { useProductDelete } from "../../../hooks/admin/product/useProductDelete";
+
+//import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast untuk notifikasi
+import toast from "react-hot-toast";
+
 const Products: React.FC = () => {
   //title
   useEffect(() => {
@@ -61,6 +70,38 @@ const Products: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  //initialize useQueryClient
+  const queryClient = useQueryClient();
+
+  // Menggunakan hook useProductDelete untuk menghapus product
+  const { mutate, isPending } = useProductDelete();
+
+  // Fungsi untuk menangani penghapusan product
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this product?")) {
+      // Panggil mutate dari useProductDelete untuk menghapus product
+      mutate(id, {
+        onSuccess: () => {
+          // Setelah berhasil menghapus, invalidate query untuk memperbarui data
+          queryClient.invalidateQueries({ queryKey: ["products"] });
+
+          // Setelah berhasil, reset halaman ke 1
+          setPage(1);
+
+          // Tampilkan notifikasi sukses
+          toast.success("Product deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // Tampilkan pesan error jika ada
+          alert(`Failed to delete product: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -177,6 +218,8 @@ const Products: React.FC = () => {
                             )}
                             {hasAnyPermission(["products-delete"]) && (
                               <button
+                                onClick={() => handleDelete(product.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Delete"
                               >
