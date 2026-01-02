@@ -31,6 +31,15 @@ import Error from "../../../components/General/Error";
 //import view create
 import Create from "./create";
 
+// import hook untuk delete photo
+import { usePhotoDelete } from "../../../hooks/admin/photo/usePhotoDelete";
+
+//import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast untuk notifikasi
+import toast from "react-hot-toast";
+
 const Photos: React.FC = () => {
   //title
   useEffect(() => {
@@ -64,6 +73,38 @@ const Photos: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  //initialize useQueryClient
+  const queryClient = useQueryClient();
+
+  // Menggunakan hook usePhotoDelete untuk menghapus photo
+  const { mutate, isPending } = usePhotoDelete();
+
+  // Fungsi untuk menangani penghapusan kategori
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this photo?")) {
+      // Panggil mutate dari usePhotoDelete untuk menghapus kategori
+      mutate(id, {
+        onSuccess: () => {
+          // Setelah berhasil menghapus, invalidate query untuk memperbarui data
+          queryClient.invalidateQueries({ queryKey: ["photos"] });
+
+          // Setelah berhasil, reset halaman ke 1
+          setPage(1);
+
+          // Tampilkan notifikasi sukses
+          toast.success("Photo deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // Tampilkan pesan error jika ada
+          alert(`Failed to delete photo: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -156,6 +197,8 @@ const Photos: React.FC = () => {
                           <div className="flex justify-end space-x-3">
                             {hasAnyPermission(["photos-delete"]) && (
                               <button
+                                onClick={() => handleDelete(photo.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Hapus"
                               >
