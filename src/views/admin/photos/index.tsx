@@ -28,6 +28,9 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+//import view create
+import Create from "./create";
+
 const Photos: React.FC = () => {
   //title
   useEffect(() => {
@@ -65,6 +68,10 @@ const Photos: React.FC = () => {
   return (
     <AdminLayout>
       <div className="p-5">
+        {hasAnyPermission(["photos-create"]) && <Create />}
+
+        <hr className="my-6 border border-gray-300" />
+
         {/* Header with Add Button */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div>

@@ -9,11 +9,46 @@ import type { PhotoCreateRequest } from "../../../types/photo";
 
 // import js-cookie
 import Cookies from "js-cookie";
+import type { AxiosError } from "axios";
+import type { ApiErrorResponse } from "../../../types/error-response";
 
 // Custom hook untuk create Photo
-export const usePhotoCreate = () => {
+export const usePhotoCreateOld = () => {
   return useMutation({
     // Mutation function untuk create photo
+    mutationFn: async (data: PhotoCreateRequest) => {
+      // Ambil token dari cookie
+      const token = Cookies.get("token");
+
+      // Buat FormData
+      const formData = new FormData();
+      if (data.image) {
+        formData.append("image", data.image);
+      }
+      formData.append("caption", data.caption);
+      formData.append("description", data.description);
+
+      // Kirim request POST ke API
+      const response = await Api.post("/api/admin/photos", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Kembalikan data dari response
+      return response.data;
+    },
+  });
+};
+
+export const usePhotoCreate = () => {
+  return useMutation<
+    unknown, // TData (response success)
+    AxiosError<ApiErrorResponse>, // TError (error dari API)
+    PhotoCreateRequest // TVariables (payload)
+  >({
+    // mutation untuk create photo
     mutationFn: async (data: PhotoCreateRequest) => {
       // Ambil token dari cookie
       const token = Cookies.get("token");
