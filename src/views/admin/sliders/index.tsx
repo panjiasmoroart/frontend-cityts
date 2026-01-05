@@ -31,6 +31,15 @@ import Error from "../../../components/General/Error";
 //import view create
 import Create from "./create";
 
+// import hook untuk delete slider
+import { useSliderDelete } from "../../../hooks/admin/slider/useSliderDelete";
+
+//import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast untuk notifikasi
+import toast from "react-hot-toast";
+
 const Slider: React.FC = () => {
   //title
   useEffect(() => {
@@ -64,6 +73,38 @@ const Slider: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  //initialize useQueryClient
+  const queryClient = useQueryClient();
+
+  // Menggunakan hook useSliderDelete untuk menghapus slider
+  const { mutate, isPending } = useSliderDelete();
+
+  // Fungsi untuk menangani penghapusan kategori
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this slider?")) {
+      // Panggil mutate dari useSliderDelete untuk menghapus kategori
+      mutate(id, {
+        onSuccess: () => {
+          // Setelah berhasil menghapus, invalidate query untuk memperbarui data
+          queryClient.invalidateQueries({ queryKey: ["sliders"] });
+
+          // Setelah berhasil, reset halaman ke 1
+          setPage(1);
+
+          // Tampilkan notifikasi sukses
+          toast.success("Slider deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // Tampilkan pesan error jika ada
+          alert(`Failed to delete slider: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -149,6 +190,8 @@ const Slider: React.FC = () => {
                           <div className="flex justify-end space-x-3">
                             {hasAnyPermission(["photos-delete"]) && (
                               <button
+                                onClick={() => handleDelete(slider.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Delete"
                               >
