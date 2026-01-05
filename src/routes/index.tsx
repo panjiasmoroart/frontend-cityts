@@ -30,6 +30,7 @@ import Products from "../views/admin/products";
 import ProductCreate from "../views/admin/products/create";
 import ProductEdit from "../views/admin/products/edit";
 import Photos from "../views/admin/photos";
+import Sliders from "../views/admin/sliders/index";
 
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
@@ -242,6 +243,14 @@ export default function AppRoutes() {
         path="/admin/photos"
         element={
           isAuthenticated ? <Photos /> : <Navigate to="/login" replace />
+        }
+      />
+
+      {/* route "/admin/sliders" */}
+      <Route
+        path="/admin/sliders"
+        element={
+          isAuthenticated ? <Sliders /> : <Navigate to="/login" replace />
         }
       />
     </Routes>
