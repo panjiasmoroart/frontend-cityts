@@ -28,6 +28,15 @@ import Loading from "../../../components/General/Loading";
 // import component Error
 import Error from "../../../components/General/Error";
 
+// import hook untuk delete aparatur
+import { useAparaturDelete } from "../../../hooks/admin/aparatur/useAparaturDelete";
+
+// import query client TanStack Query
+import { useQueryClient } from "@tanstack/react-query";
+
+// import toast dari react-hot-toast untuk notifikasi
+import toast from "react-hot-toast";
+
 const Aparaturs: React.FC = () => {
   //title
   useEffect(() => {
@@ -61,6 +70,38 @@ const Aparaturs: React.FC = () => {
 
     setSearchParams(params);
   }, [submittedSearch, page]);
+
+  // initialize useQueryClient
+  const queryClient = useQueryClient();
+
+  // Menggunakan hook useAparaturDelete untuk menghapus aparatur
+  const { mutate, isPending } = useAparaturDelete();
+
+  // Fungsi untuk menangani penghapusan aparatur
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this aparatur?")) {
+      // Panggil mutate dari useAparaturDelete untuk menghapus aparatur
+      mutate(id, {
+        onSuccess: () => {
+          // Setelah berhasil menghapus, invalidate query untuk memperbarui data
+          queryClient.invalidateQueries({ queryKey: ["aparaturs"] });
+
+          // Setelah berhasil, reset halaman ke 1
+          setPage(1);
+
+          // Tampilkan notifikasi sukses
+          toast.success("Aparatur deleted successfully!", {
+            position: "top-right",
+            duration: 3000,
+          });
+        },
+        onError: (error: Error) => {
+          // Tampilkan pesan error jika ada
+          alert(`Failed to delete aparatur: ${error.message}`);
+        },
+      });
+    }
+  };
 
   return (
     <AdminLayout>
@@ -158,6 +199,8 @@ const Aparaturs: React.FC = () => {
 
                             {hasAnyPermission(["aparaturs-delete"]) && (
                               <button
+                                onClick={() => handleDelete(aparatur.id)}
+                                disabled={isPending}
                                 className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-colors"
                                 title="Hapus"
                               >
