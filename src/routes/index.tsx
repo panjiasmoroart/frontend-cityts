@@ -33,6 +33,7 @@ import Photos from "../views/admin/photos";
 import Sliders from "../views/admin/sliders/index";
 import Aparaturs from "../views/admin/aparaturs";
 import AparaturCreate from "../views/admin/aparaturs/create";
+import AparaturEdit from "../views/admin/aparaturs/edit";
 
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
@@ -273,6 +274,14 @@ export default function AppRoutes() {
           ) : (
             <Navigate to="/login" replace />
           )
+        }
+      />
+
+      {/* route "/admin/aparaturs/edit/:id" */}
+      <Route
+        path="/admin/aparaturs/edit/:id"
+        element={
+          isAuthenticated ? <AparaturEdit /> : <Navigate to="/login" replace />
         }
       />
     </Routes>
