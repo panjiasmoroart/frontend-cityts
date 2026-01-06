@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
           <Link
             to="#"
             className="flex items-center gap-3 group relative"
-            aria-label="Desa Santri Home"
+            aria-label="City Santri Home"
           >
             {/* 3D Logo Container */}
             <div className="relative">
@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
                 {/* Logo Image */}
                 <img
                   src="/images/logo-jbg.png"
-                  alt="Desa Santri Logo"
+                  alt="City Santri Logo"
                   className="w-12 h-12 object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105"
                 />
 
@@ -53,19 +53,19 @@ const Footer: React.FC = () => {
             {/* Text with 3D effect */}
             <span className="text-2xl font-bold text-white relative">
               <span className="relative z-10 group-hover:text-yellow-300 transition-colors duration-300">
-                DESA SANTRI
+                CITY SANTRY
               </span>
               {/* Text shadow for 3D effect */}
               <span
                 className="absolute top-0.5 left-0.5 text-2xl font-bold text-yellow-700 -z-10"
                 aria-hidden="true"
               >
-                DESA SANTRI
+                CITY SANTRY
               </span>
             </span>
           </Link>
           <p className="text-gray-400 leading-relaxed">
-            Desa Santri, Jombang, Jawa Timur. Pusat kebudayaan dan spiritualitas
+            Cita Santry, Depok, Jawa Barat. Pusat kebudayaan dan spiritualitas
             di tengah keindahan alam.
           </p>
           <div className="flex gap-4">
@@ -144,14 +144,14 @@ const Footer: React.FC = () => {
                 <FiMapPin className="h-4 w-4 text-yellow-400" />
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Jln. Diponegoro No. 58, Wonosalam, Jombang, Jawa Timur, 61473
+                Jln. Pemuda No. 58, Sawangan Baru, Depok, Jawa Barat, 16511
               </p>
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-gray-800 p-2 rounded-full">
                 <FiMail className="h-4 w-4 text-yellow-400" />
               </div>
-              <p className="text-gray-400 text-sm">info@desa-santri.com</p>
+              <p className="text-gray-400 text-sm">info@city-santry.com</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-gray-800 p-2 rounded-full">
@@ -166,7 +166,7 @@ const Footer: React.FC = () => {
       {/* Copyright */}
       <div className="text-center text-sm text-gray-500 pt-12 mt-12 border-t border-gray-800">
         <p>
-          &copy; {new Date().getFullYear()} DESA SANTRI. All Rights Reserved. |
+          &copy; {new Date().getFullYear()} CITY SANTRY. All Rights Reserved. |
           <Link
             to="/privacy"
             className="hover:text-yellow-400 ml-2 transition-colors"
