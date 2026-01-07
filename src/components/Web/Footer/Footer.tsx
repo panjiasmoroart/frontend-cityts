@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
 
                 {/* Logo Image */}
                 <img
-                  src="/images/logo-jbg.png"
+                  src="/images/logo-dpk.png"
                   alt="City Santri Logo"
                   className="w-12 h-12 object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105"
                 />

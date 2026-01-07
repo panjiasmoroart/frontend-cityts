@@ -35,6 +35,11 @@ import Aparaturs from "../views/admin/aparaturs";
 import AparaturCreate from "../views/admin/aparaturs/create";
 import AparaturEdit from "../views/admin/aparaturs/edit";
 
+//=======================================================
+
+//import view home
+import Home from "../views/web/home/index";
+
 export default function AppRoutes() {
   // Ambil state isAuthenticated dari useAuthStore
   const isAuthenticated = useAuthStore((state) => state.token !== "");
@@ -284,6 +289,9 @@ export default function AppRoutes() {
           isAuthenticated ? <AparaturEdit /> : <Navigate to="/login" replace />
         }
       />
+
+      {/* route "/" */}
+      <Route path="/" element={<Home />} />
     </Routes>
   );
 }

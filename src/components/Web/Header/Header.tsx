@@ -33,7 +33,7 @@ const Header: React.FC = () => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <FiMail className="h-3 w-3" />
-              <span>info@desa-santri.com</span>
+              <span>info@city-santry.com</span>
             </div>
             <div className="flex items-center gap-1">
               <FiPhone className="h-3 w-3" />
@@ -80,8 +80,8 @@ const Header: React.FC = () => {
                 {/* kartu logo */}
                 <div className="relative h-full w-full rounded-2xl bg-linear-to-br from-yellow-400 to-yellow-500 border-2 border-yellow-300 shadow-xl transform transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl flex items-center justify-center p-2 md:p-3">
                   <img
-                    src="/images/logo-jbg.png"
-                    alt="Logo Desa"
+                    src="/images/logo-dpk.png"
+                    alt="Logo City"
                     className="h-full w-full object-contain filter drop-shadow-sm"
                     style={{ width: "60px", height: "60px" }}
                   />
@@ -96,13 +96,13 @@ const Header: React.FC = () => {
               <div className="text-stone-900 mt-2 md:mt-0 ml-3">
                 <h1 className="text-3xl md:text-4xl font-extrabold mb-2">
                   <span className="bg-linear-to-r from-yellow-800 via-yellow-700 to-amber-600 bg-clip-text text-transparent">
-                    DESA SANTRI
+                    CITY SANTRY
                   </span>
                 </h1>
                 {/* perbaikan: gunakan 'border' (Tailwind tidak punya 'border-1') */}
                 <hr className="border border-yellow-400 my-1 md:my-2 mx-auto md:mx-0 w-3/4 md:w-full" />
                 <p className="text-xs md:text-sm">
-                  Jln. Diponegoro No. 58, Wonosalam, Jombang, Jawa Timur, 61473
+                  Jln. Pemuda No. 58, Sawangan Baru, Depok, Jawa Barat, 16511
                 </p>
               </div>
             </div>
