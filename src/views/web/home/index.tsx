@@ -5,6 +5,7 @@ import React from "react";
 import WebLayout from "../../../layouts/web";
 import Slider from "./components/Slider";
 import Product from "./components/Product";
+import Post from "./components/Post";
 
 const HomePage: React.FC = () => {
   return (
@@ -14,6 +15,9 @@ const HomePage: React.FC = () => {
 
       {/* Product Section */}
       <Product />
+
+      {/* Post Section */}
+      <Post />
     </WebLayout>
   );
 };
