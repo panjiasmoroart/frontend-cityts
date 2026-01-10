@@ -7,6 +7,7 @@ import Slider from "./components/Slider";
 import Product from "./components/Product";
 import Post from "./components/Post";
 import Photo from "./components/Photo";
+import Aparatur from "./components/Aparatur";
 
 const HomePage: React.FC = () => {
   return (
@@ -22,6 +23,9 @@ const HomePage: React.FC = () => {
 
       {/* Photo Section */}
       <Photo />
+
+      {/* Aparatur Section */}
+      <Aparatur />
     </WebLayout>
   );
 };
