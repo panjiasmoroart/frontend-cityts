@@ -6,6 +6,7 @@ import WebLayout from "../../../layouts/web";
 import Slider from "./components/Slider";
 import Product from "./components/Product";
 import Post from "./components/Post";
+import Photo from "./components/Photo";
 
 const HomePage: React.FC = () => {
   return (
@@ -18,6 +19,9 @@ const HomePage: React.FC = () => {
 
       {/* Post Section */}
       <Post />
+
+      {/* Photo Section */}
+      <Photo />
     </WebLayout>
   );
 };
